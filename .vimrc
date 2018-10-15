@@ -1,5 +1,10 @@
 
 "-----------https://github.com/VundleVim/Vundle.Vim#quick-start-----------
+"How to use
+"git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"Launch vim and run :PluginInstall
+"To install from command line: vim +PluginInstall +qall
+
 set nocompatible              " be iMproved, require
 filetype off                  " required
 

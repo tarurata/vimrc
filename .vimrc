@@ -43,6 +43,9 @@ filetype plugin indent on    " required
 "Settings for Plugin.
 let g:NERDTreeWinSize=15
 let g:neocomplete#enable_at_startup = 1
+"Setting for the bug for the missing first character of file or directory name
+let NERDTreeNodeDelimiter = "\t"
+
 autocmd vimenter * NERDTree
 
 "Configuration for encoding.

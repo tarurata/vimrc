@@ -21,7 +21,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'justmao945/vim-clang'
-Plugin 'shougo/neocomplete.vim'
+Plugin 'cohama/lexima.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -43,9 +43,6 @@ filetype plugin indent on    " required
 "Settings for Plugin.
 let g:NERDTreeWinSize=15
 let g:neocomplete#enable_at_startup = 1
-"Setting for the bug for the missing first character of file or directory name
-let NERDTreeNodeDelimiter = "\t"
-
 autocmd vimenter * NERDTree
 
 "Configuration for encoding.
@@ -60,18 +57,9 @@ set si
 colorscheme slate
 syntax on
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                 Sample vimrc                                 "
-"                                                                              "
-"                                 Provided by:                                 "
-"                           LinuxTrainingAcademy.com                           "
-"                                                                              "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Save 1,000 items in history
 set history=1000
 
-" Show the line and column number of the cursor position
 set ruler
 
 " Display the incomplete commands in the bottom right-hand side of your screen.  
@@ -120,26 +108,8 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
-" Specifiy a color scheme.
-"colorscheme slate
-
-" Tell vim what background you are using
-" set bg=light
-" set bg=dark
-
-" Map Y to act like D and C, i.e. yank until EOL, rather than act like yy
-" map Y y$
-
-" Remap VIM 0 to first non-blank character
-" map 0 ^
-
-" Easily create HTML unorded lists. 
-map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>I</ul><Esc>kcit
-map <F4> <Esc>o<li></li><Esc>cit
-
-" change the mapleader from \ to ,
-" NOTE: This has to be set before <leader> is used.
-"let mapleader=","
+" Do not make swap file
+set noswapfile
 
 " Quickly save your file.
 map <leader>w :w!<cr>

@@ -47,7 +47,7 @@ autocmd vimenter * NERDTree
 
 "Configuration for encoding.
 set encoding=utf-8
-set fileencodings=iso-2022-jp,euc-jp,sjis,utf-8
+set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 
 "When you start new line, make the same indent in new line with previous one. 
 set ai

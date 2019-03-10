@@ -118,3 +118,5 @@ map <leader>w :w!<cr>
 :imap jk <Esc>
 :imap kj <Esc>
 
+" If there are more than 1 tag matching file, Show the list.(with ctags)
+nnoremap <C-]> g<C-]>

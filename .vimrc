@@ -22,6 +22,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'justmao945/vim-clang'
 Plugin 'cohama/lexima.vim'
+Plugin 'posva/vim-vue'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -112,8 +113,20 @@ set tabstop=4
 " Do not make swap file
 set noswapfile
 
+" Allocate space key to <leader>
+let mapleader = "\<Space>"
+
 " Quickly save your file.
 map <leader>w :w!<cr>
+" Quickly open the file.
+nnoremap <Leader>o :CtrlP<CR>
+" Quickly yank and paste with OS clip board. 
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
 
 :imap jk <Esc>
 :imap kj <Esc>

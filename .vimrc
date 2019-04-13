@@ -23,6 +23,8 @@ Plugin 'rhysd/vim-clang-format'
 Plugin 'justmao945/vim-clang'
 Plugin 'cohama/lexima.vim'
 Plugin 'posva/vim-vue'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'tpope/vim-surround'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

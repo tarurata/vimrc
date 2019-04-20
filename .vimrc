@@ -47,6 +47,7 @@ filetype plugin indent on    " required
 let g:NERDTreeWinSize=15
 let g:neocomplete#enable_at_startup = 1
 autocmd vimenter * NERDTree
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
 "Configuration for encoding.
 set encoding=utf-8

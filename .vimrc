@@ -25,6 +25,7 @@ Plugin 'cohama/lexima.vim'
 Plugin 'posva/vim-vue'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdcommenter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

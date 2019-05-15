@@ -137,3 +137,7 @@ vmap <Leader>P "+P
 
 " If there are more than 1 tag matching file, Show the list.(with ctags)
 nnoremap <C-]> g<C-]>
+
+" For html tag jump (<div>-></div>)
+" You can check where the directory is with ":echo $VIMRUNTIME" on vim.
+:source /usr/local/share/vim/vim81/macros/matchit.vim

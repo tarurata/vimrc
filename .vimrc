@@ -141,3 +141,30 @@ nnoremap <C-]> g<C-]>
 " For html tag jump (<div>-></div>)
 " You can check where the directory is with ":echo $VIMRUNTIME" on vim.
 :source /usr/local/share/vim/vim81/macros/matchit.vim
+
+
+" For html tag jump (<div>-></div>)
+:source /usr/local/share/vim/vim81/macros/matchit.vim
+
+" For html, js, css and so on. Make tabstop=2
+function! s:javascript_filetype_settings()
+    setlocal tabstop=2
+    setlocal shiftwidth=2
+    setlocal cindent
+endfunction
+autocmd FileType javascript call s:javascript_filetype_settings()
+
+function! s:html_filetype_settings()
+    setlocal tabstop=2
+    setlocal shiftwidth=2
+    setlocal includeexpr=substitute(v:fname,'^\\/','','') |
+endfunction
+autocmd FileType html call s:html_filetype_settings()
+
+function! s:css_filetype_settings()
+    setlocal tabstop=2
+    setlocal shiftwidth=2
+    setlocal cindent
+endfunction
+autocmd FileType css  call s:css_filetype_settings()
+autocmd FileType sass call s:css_filetype_settings()

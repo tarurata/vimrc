@@ -26,6 +26,7 @@ Plugin 'posva/vim-vue'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'jwalton512/vim-blade'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

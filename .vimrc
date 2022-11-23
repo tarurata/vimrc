@@ -1,16 +1,13 @@
 call plug#begin('~/.vim/plugged')
 
+Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
-Plug 'scrooloose/nerdtree'
 Plug 'mattn/emmet-vim'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'rhysd/vim-clang-format'
-Plug 'justmao945/vim-clang'
+" Complement parentheses
 Plug 'cohama/lexima.vim'
-Plug 'posva/vim-vue'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-surround'
+Plug 'posva/vim-vue'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jwalton512/vim-blade'
 Plug 'ap/vim-css-color'
@@ -18,49 +15,111 @@ Plug 'tomasr/molokai'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'easymotion/vim-easymotion'
+Plug 'shun/ddc-vim-lsp'
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-
+" https://note.com/dd_techblog/n/n97f2b6ca09d8
+" ddc.vim本体
+Plug 'Shougo/ddc.vim'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-icons'
+" https://zenn.dev/shougo/articles/snippet-plugins-2020
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'rafamadriz/friendly-snippets' " 大量のスニペット郡
+" DenoでVimプラグインを開発するためのプラグイン
+Plug 'vim-denops/denops.vim'
+" ポップアップウィンドウを表示するプラグイン
+Plug 'Shougo/pum.vim'
+" カーソル周辺の既出単語を補完するsource
+Plug 'Shougo/ddc-around'
+" ファイル名を補完するsource
+Plug 'LumaKernel/ddc-file'
+" 入力中の単語を補完の対象にするfilter
+Plug 'Shougo/ddc-matcher_head'
+" 補完候補を適切にソートするfilter
+Plug 'Shougo/ddc-sorter_rank'
+" 補完候補の重複を防ぐためのfilter
+Plug 'Shougo/ddc-converter_remove_overlap'
+Plug 'matsui54/denops-popup-preview.vim'
 call plug#end()
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('sourceOptions', {
+ \ '_': {
+ \   'matchers': ['matcher_head'],
+ \   'sorters': ['sorter_rank'],
+ \   'converters': ['converter_remove_overlap'],
+ \ },
+ \ 'vim-lsp': {
+ \   'mark': 'LSP', 
+ \   'matchers': ['matcher_head'],
+ \ },
+ \ 'around': {'mark': 'Around'},
+ \ 'file': {
+ \   'mark': 'file',
+ \   'isVolatile': v:true, 
+ \   'forceCompletionPattern': '\S/\S*'
+ \ }})
+call ddc#custom#patch_global('sources', [
+ \ 'vim-lsp',
+ \ 'around',
+ \ 'file'
+ \ ])
+
+" Make tab to be confirm key when pum pulldown is visible.
+inoremap <silent><expr> <TAB>
+      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<TAB>'
+"inoremap <TAB> <Cmd>call pum#map#confirm()<CR>
+inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+
+call ddc#enable()
+call popup_preview#enable()
+autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
 
 "Settings for Plugin.
 let g:NERDTreeWinSize=15
-"let g:neocomplete#enable_at_startup = 1
+
+"For Snippet expand " https://github.com/hrsh7th/vim-vsnip
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+" Expand or jump to next inputable attribute or something
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 set completeopt+=noinsert
-let g:deoplete#enable_at_startup = 1
-"let g:deoplete#enable_at_startup = 1
-"let g:deoplete#auto_completion_start_length = 1
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_text_edit_enabled = 1
+
+"ESCを二回押すことでハイライトを消す
+nmap <silent> <Esc><Esc> :nohlsearch<CR>
 
 "autocmd vimenter * NERDTree
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 
-"Setting for Plugin calendar.vim
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
+set cursorline
+set cursorcolumn
+set ruler
 
 "Configuration for encoding.
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 
 "When you start new line, make the same indent in new line with previous one. 
-set ai
+set autoindent
 
 "When you start new line, make high level auto indentation.
-set si
-
-colorscheme molokai
-syntax on
+set smartindent 
 
 " Save 1,000 items in history
 set history=1000
-
-set ruler
 
 " Display the incomplete commands in the bottom right-hand side of your screen.  
 set showcmd
@@ -86,20 +145,11 @@ set smartcase
 " Turn on line numbering
 set number
 
-" Turn on file backups
-" no swap file
-set backup
 " no backup file(with tilde)
 set nobackup
 
 " Don't line wrap mid-word.
-set lbr
-
-" Copy the indentation from the current line.
-set autoindent
-
-" Enable smart autoindenting.
-set smartindent
+set linebreak
 
 " Use spaces instead of tabs
 set expandtab
@@ -119,8 +169,11 @@ let mapleader = "\<Space>"
 
 " Quickly save your file.
 map <leader>w :w!<cr>
-" Quickly open the file.
-nnoremap <Leader>o :CtrlP<CR>
+
+" Quickly open the file with fzf. https://qiita.com/kompiro/items/a09c0b44e7c741724c80
+nnoremap <Leader>o :Files<CR>
+nnoremap <Leader>h :History<CR>
+
 " Quickly yank and paste with OS clip board. 
 vmap <Leader>y "+y
 vmap <Leader>d "+d
@@ -140,20 +193,14 @@ nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
 
-" If there are more than 1 tag matching file, Show the list.(with ctags)
-nnoremap <C-]> g<C-]>
-
 " For html tag jump (<div>-></div>)
 :runtime macros/matchit.vim
 
-" For html, js, css and so on. Make tabstop=4
 function! s:javascript_filetype_settings()
     setlocal tabstop=2
     setlocal shiftwidth=2
     setlocal cindent
 endfunction
-
-autocmd FileType javascript call s:javascript_filetype_settings()
 
 function! s:html_filetype_settings()
     setlocal tabstop=2
@@ -168,15 +215,14 @@ function! s:css_filetype_settings()
     setlocal cindent
 endfunction
 
-function! s:python_filetype_settings()
-    setlocal tabstop=4
-    setlocal shiftwidth=4
-    setlocal cindent
-endfunction
-
-autocmd FileType python  call s:python_filetype_settings()
+"autocmd FileType python  call s:python_filetype_settings()
+autocmd FileType javascript call s:javascript_filetype_settings()
 autocmd FileType css  call s:css_filetype_settings()
 autocmd FileType sass call s:css_filetype_settings()
 
-" set 256 color
+" Color config
+colorscheme molokai
+syntax on
 set t_Co=256
+
+set backspace=indent,eol,start

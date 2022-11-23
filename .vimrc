@@ -5,6 +5,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'mattn/emmet-vim'
 " Complement parentheses
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cohama/lexima.vim'
 Plug 'tpope/vim-surround'
 Plug 'posva/vim-vue'
@@ -67,8 +68,9 @@ call ddc#custom#patch_global('sources', [
  \ ])
 
 " Make tab to be confirm key when pum pulldown is visible.
-inoremap <silent><expr> <TAB>
-      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<TAB>'
+"inoremap <silent><expr> <TAB>
+      "\ vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)'   :
+      "\ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<TAB>'
 "inoremap <TAB> <Cmd>call pum#map#confirm()<CR>
 inoremap <C-n>   <Cmd>call pum#map#select_relative(+1)<CR>
 inoremap <C-p>   <Cmd>call pum#map#select_relative(-1)<CR>
@@ -88,9 +90,9 @@ smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j
 " Expand or jump to next inputable attribute or something
 imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" Jump forward or backward (#pumのtab complettionと競合するので条件分岐追加 )
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<Tab>'
 imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
@@ -130,11 +132,11 @@ set wildmenu
 " Show a few lines of context around the cursor
 set scrolloff=5
 
-" Highlight search matches
-set hlsearch
-
 " Enable incremental searching
 set incsearch
+
+" Highlight search matches
+set hlsearch
 
 " Ignore case when searching
 set ignorecase
@@ -171,7 +173,7 @@ let mapleader = "\<Space>"
 map <leader>w :w!<cr>
 
 " Quickly open the file with fzf. https://qiita.com/kompiro/items/a09c0b44e7c741724c80
-nnoremap <Leader>o :Files<CR>
+nnoremap <Leader>o :Files
 nnoremap <Leader>h :History<CR>
 
 " Quickly yank and paste with OS clip board. 
@@ -224,5 +226,9 @@ autocmd FileType sass call s:css_filetype_settings()
 colorscheme molokai
 syntax on
 set t_Co=256
+" Need to be below the molokai
+hi Search ctermbg=Gray
+hi Search ctermfg=Black
+
 
 set backspace=indent,eol,start
